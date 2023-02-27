@@ -1,0 +1,18 @@
+fairseq-train /kaggle/working/postprocessed/en-te \
+  --finetune-from-model /kaggle/working/mbart50.ft.nn/model.pt \
+  --encoder-normalize-before --decoder-normalize-before \
+  --arch mbart_large --layernorm-embedding \
+  --task translation_multi_simple_epoch \
+  --sampling-method "temperature" \
+  --sampling-temperature 1.5 \
+  --encoder-langtok "src" \
+  --decoder-langtok \
+  --lang-dict /kaggle/working/mbart50.ft.nn/ML50_langs.txt \
+  --lang-pairs en_XX-te_IN \
+  --criterion label_smoothed_cross_entropy --label-smoothing 0.2 \
+  --optimizer adam --adam-eps 1e-06 --adam-betas '(0.9, 0.98)' \
+  --lr-scheduler inverse_sqrt --lr 3e-05 --warmup-updates 2500 --max-update 40000 \
+  --dropout 0.3 --attention-dropout 0.1 --weight-decay 0.0 \
+  --max-tokens 1024 --update-freq 2 \
+  --save-interval 1 --save-interval-updates 5000 --keep-interval-updates 10 --no-epoch-checkpoints \
+  --seed 222 --log-format simple --log-interval 2
